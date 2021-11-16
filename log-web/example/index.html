@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>前端日志</title>
+</head>
+<body>
+  <div>22222
+    <img src="https://xxx.png" alt="22">
+  </div>
+ 
+  <!-- <script type="module" src="../src/index.js"></script> -->
+  <script src="../dist/error.js"></script>
+  <script>
+    WebLog({
+      projectname: 'test-project',
+      httpUrl: 'https://172.168.0.0:8080', // 错误上报服务器地址
+      tag: 'v1.0.0', // 版本号
+      token: 'token',
+      env: 'dev' // 环境
+    })
+    // const name = "Jules";
+    // name = "Caty";
+    // console.log(name, 'name')
+  </script>
+</body>
+</html>
