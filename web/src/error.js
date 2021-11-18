@@ -2,20 +2,22 @@ import { ajax } from "./ajax";
 
 /**
  * @event windowRrror 捕捉脚本语法错误和运行时错误
+ * 
+ * @param {String}  msg    错误信息
+ * @param {String}  source     出错文件
+ * @param {Number}  lineno     行号
+ * @param {Number}  colno      列号
+ * @param {Object}  error      Error对象（对象）
  */
 export function windowRrror(config) {
-  window.onerror = function (msg, url, line, colno) {
+  window.onerror = function (msg, source, lineno, colno) {
     ajax({
       url: config.httpUrl,
       data: {
         ...config,
-        msg, url, line, colno, type: 'onerror'
+        msg, source, lineno, colno, type: 'onerror'
       }
     })
-    // 可以捕获异步函数中的错误信息并进行处理， 提示Script error
-    console.log(msg);   //捕获错误信息
-    console.log(url);   //捕获出错的文件路径
-    console.log(line, 'line');  //捕获错误出错的行数
   }
 }
 
@@ -29,7 +31,7 @@ export function unhandledrejection(config) {
       url: config.httpUrl,
       data: {
         ...config,
-        ms: e.reason,
+        msg: e.reason,
         type: 'promise'
       }
     })
@@ -52,16 +54,21 @@ export function error(config) {
         ...config,
         tagName: target.tagName,
         count: Number(target.dataset.count ) || 0,
-        src: target.src,
+        src: target.currentSrc,
         type: 'resource',
       }
     })
-  });
+  }, true);
 }
 
 /**
  *  @event httpError http 请求错误
  */
-export function httpError() {
-
+export function httpError(config) {
+  window.addEventListener('ajaxReadyStateChange', function (e) {
+    console.log(e.detail, "httpError 1");  // XMLHttpRequest Object
+  });
+  window.addEventListener('ajaxAbort', function (e) {
+    console.log(e.detail.responseText, "httpError 2"); // XHR 返回的内容
+  });
 }

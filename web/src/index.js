@@ -1,16 +1,11 @@
-console.log('2222')
-
-
 import { getBrowser, getDevices, getSystemVersion } from './device.js'
 import { windowRrror, unhandledrejection, error, httpError } from './error.js'
-
 
 /*
 * @Author: sanlangguo
 * @Date:   2021-11-15 18:28
 */
 ;(function () {
-  console.log(222)
   if (window.webLog) {
     return window.webLog
   }
