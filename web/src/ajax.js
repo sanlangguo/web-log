@@ -22,10 +22,10 @@ export function ajax(options) {
   }
 
   if (options.type == 'GET') {
-    xhr.open('GET', options.url + '?' + params, true)
+    xhr.open('GET', options.httpUrl + '?' + params, true)
     xhr.send(null)
   } else if (options.type == 'POST') {
-    xhr.open('POST', options.url, true)
+    xhr.open('POST', options.httpUrl, true)
     // 设置表单提交时的内容类型
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
     xhr.send(params)
