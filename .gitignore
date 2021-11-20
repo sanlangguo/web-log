@@ -1,0 +1,12 @@
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.DS_Store
+
+web/node_modules
+
+*.lock
