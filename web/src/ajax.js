@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 export function ajax(options) {
+  console.log(options, 'options.httpUrl')
   options = options || {};
   options.type = (options.type || 'GET').toUpperCase();
   options.dataType = options.dataType || 'json';
@@ -22,15 +23,10 @@ export function ajax(options) {
     }
   };
 
-  if (options.type == 'GET') {
-    xhr.open('GET', options.httpUrl + '?' + params, true);
-    xhr.send(null);
-  } else if (options.type == 'POST') {
-    xhr.open('POST', options.httpUrl, true);
-    // 设置表单提交时的内容类型
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(params);
-  }
+  xhr.open('POST', options.url, true);
+  // 设置表单提交时的内容类型
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
 }
 
 /*

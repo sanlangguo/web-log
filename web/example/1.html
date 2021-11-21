@@ -17,8 +17,8 @@
   <script src="../dist/error.js"></script>
   <script>
     WebLog({
-      projectname: 'test-project',
-      httpUrl: 'https://172.168.0.0:8080', // 错误上报服务器地址
+      projectName: 'test-project',
+      httpUrl: 'http://192.168.0.101:3000/log', // 错误上报服务器地址
       tag: 'v1.0.0', // 版本号
       token: 'token',
       env: 'dev' // 环境
@@ -78,6 +78,16 @@
       env: 'dev', // 环境
       data: {
         position: 'flzq.dxkt'
+      }
+    })
+    ajax({
+      projectname: 'test-project',
+      httpUrl: 'https://test-gateway.jinyi999.cn/rjhy-activity-manage/api/v1/activities/pages', // 错误上报服务器地址
+      tag: 'v1.0.0', // 版本号
+      token: 'token',
+      env: 'dev', // 环境
+      data: {
+        position: 'flzq.dxkt2'
       }
     })
   </script>

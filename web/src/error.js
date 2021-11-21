@@ -72,7 +72,6 @@ export function httpError(config) {
     originalOpen.call(this, method, url, async, username, password)
   }
   XMLHttpRequest.prototype.send = function (data) {
-    console.log(this, data, '-- 2dadad')
     var _this = this
     var listener = function () {
       console.log(_this.status, _this, '-- event')
@@ -83,14 +82,14 @@ export function httpError(config) {
           data: {
             ...config,
             responseURL: _this.currentSrc,
-            response: _this.response,
+            // response: _this.response,
             status: _this.status,
             requestData: data,
             type: 'ajax',
           }
         })
       }
-      _this.removeEventListener('readystatechange', listener)
+      _this.removeEventListener('readystatechange', listener) // 如何防止重复提交
     }
     _this.addEventListener('readystatechange', listener)
     originalSend.call(this, data)

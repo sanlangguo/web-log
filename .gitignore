@@ -6,7 +6,11 @@
 *.pid
 *.gz
 *.DS_Store
+package-lock.json
 
 web/node_modules
+serve/node_modules
+serve/package-lock.json
+web/package-lock.json
 
 *.lock
