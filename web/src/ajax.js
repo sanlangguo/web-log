@@ -33,7 +33,6 @@ export function ajax(options) {
   }
 }
 
-
 /*
   *格式化参数
   */

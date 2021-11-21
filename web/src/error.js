@@ -53,7 +53,7 @@ export function error(config) {
       data: {
         ...config,
         tagName: target.tagName,
-        count: Number(target.dataset.count ) || 0,
+        count: Number(target.dataset.count) || 0,
         src: target.currentSrc,
         type: 'resource',
       }
@@ -65,10 +65,34 @@ export function error(config) {
  *  @event httpError http 请求错误
  */
 export function httpError(config) {
-  window.addEventListener('ajaxReadyStateChange', function (e) {
-    console.log(e.detail, "httpError 1");  // XMLHttpRequest Object
-  });
-  window.addEventListener('ajaxAbort', function (e) {
-    console.log(e.detail.responseText, "httpError 2"); // XHR 返回的内容
-  });
+  var originalOpen = XMLHttpRequest.prototype.open
+  var originalSend = XMLHttpRequest.prototype.send
+  XMLHttpRequest.prototype.open = function (method, url, async, username, password) {
+    config.method = method
+    originalOpen.call(this, method, url, async, username, password)
+  }
+  XMLHttpRequest.prototype.send = function (data) {
+    console.log(this, data, '-- 2dadad')
+    var _this = this
+    var listener = function () {
+      console.log(_this.status, _this, '-- event')
+      if (_this.status == 200 && _this.readyState === 4) {
+        console.log('response status', _this.status,_this, data)
+        ajax({
+          url: config.httpUrl,
+          data: {
+            ...config,
+            responseURL: _this.currentSrc,
+            response: _this.response,
+            status: _this.status,
+            requestData: data,
+            type: 'ajax',
+          }
+        })
+      }
+      _this.removeEventListener('readystatechange', listener)
+    }
+    _this.addEventListener('readystatechange', listener)
+    originalSend.call(this, data)
+  }
 }
