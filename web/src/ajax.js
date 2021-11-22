@@ -23,22 +23,10 @@ export function ajax(options) {
     }
   };
 
-<<<<<<< HEAD
-  if (options.type == 'GET') {
-    xhr.open('GET', options.httpUrl + '?' + params, true)
-    xhr.send(null)
-  } else if (options.type == 'POST') {
-    xhr.open('POST', options.httpUrl, true)
-    // 设置表单提交时的内容类型
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-    xhr.send(params)
-  }
-=======
   xhr.open('POST', options.url, true);
   // 设置表单提交时的内容类型
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.send(params);
->>>>>>> 1b19baf8072723d8cc6eba2cbfe9e3c14ec8c295
 }
 
 /*
