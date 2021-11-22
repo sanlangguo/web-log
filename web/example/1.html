@@ -1,0 +1,96 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>前端日志</title>
+</head>
+
+<body>
+  <div>22222
+    <!-- <img src="https://xxx1.png" alt="22">
+    <img src="https://xxx2.png" alt="22"> -->
+  </div>
+
+  <!-- <script type="module" src="../src/index.js"></script> -->
+  <script src="../dist/error.js"></script>
+  <script>
+    WebLog({
+      projectName: 'test-project',
+      httpUrl: 'http://192.168.0.101:3000/log', // 错误上报服务器地址
+      tag: 'v1.0.0', // 版本号
+      token: 'token',
+      env: 'dev' // 环境
+    })
+  </script>
+  <script>
+    function ajax(options) {
+      options = options || {};
+      options.type = (options.type || 'GET').toUpperCase();
+      options.dataType = options.dataType || 'json';
+      var params = formatParams(options.data);
+      var xhr = null;
+      if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+      } else {
+        xhr = new ActiveXObject('Microsoft.XMLHTTP');
+      }
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          var status = xhr.status;
+          if (status >= 200 && status < 300) {
+            options.success && options.success(xhr.responseText, xhr.responseXML);
+          } else {
+            options.fail && options.fail(status);
+          }
+        }
+      };
+
+      if (options.type == 'GET') {
+        xhr.open('GET', options.httpUrl + '?' + params, true);
+        xhr.send(1);
+      } else if (options.type == 'POST') {
+        xhr.open('POST', options.httpUrl, true);
+        // 设置表单提交时的内容类型
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send(params);
+      }
+    }
+
+    /*
+      *格式化参数
+      */
+    function formatParams(data) {
+      var arr = [];
+      for (var name in data) {
+        arr.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
+      }
+      return arr.join('&');
+    }
+
+    ajax({
+      projectname: 'test-project',
+      httpUrl: 'https://test-gateway.jinyi999.cn/rjhy-activity-manage/api/v1/activities/pages', // 错误上报服务器地址
+      tag: 'v1.0.0', // 版本号
+      token: 'token',
+      env: 'dev', // 环境
+      data: {
+        position: 'flzq.dxkt'
+      }
+    })
+    ajax({
+      projectname: 'test-project',
+      httpUrl: 'https://test-gateway.jinyi999.cn/rjhy-activity-manage/api/v1/activities/pages', // 错误上报服务器地址
+      tag: 'v1.0.0', // 版本号
+      token: 'token',
+      env: 'dev', // 环境
+      data: {
+        position: 'flzq.dxkt2'
+      }
+    })
+  </script>
+</body>
+
+</html>

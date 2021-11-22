@@ -1,0 +1,102 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日志</title>
+</head>
+
+<body>
+  <script>
+    var originalOpen = XMLHttpRequest.prototype.open
+    var originalSend = XMLHttpRequest.prototype.send
+    XMLHttpRequest.prototype.open = function (method, url, async, username, password) {
+      originalOpen.call(this, method, url, async, username, password)
+    }
+    XMLHttpRequest.prototype.send = function (data) {
+      console.log(this, data, '-- dadad')
+      var _this = this
+      var listener = function (event) {
+        if (_this.readyState === 4 && _this.status != 200) {
+          console.log('response status', _this.status)
+          console.log('response statusText --- >', _this,  data)
+        }
+        _this.removeEventListener('readystatechange', listener)
+      }
+      this.addEventListener('readystatechange', listener)
+      originalSend.call(this, data)
+    }
+  </script>
+  <script>
+    function ajax(options) {
+      options = options || {};
+      options.type = (options.type || 'GET').toUpperCase();
+      options.dataType = options.dataType || 'json';
+      var params = formatParams(options.data);
+      var xhr = null;
+      if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+      } else {
+        xhr = new ActiveXObject('Microsoft.XMLHTTP');
+      }
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          var status = xhr.status;
+          if (status >= 200 && status < 300) {
+            options.success && options.success(xhr.responseText, xhr.responseXML);
+          } else {
+            options.fail && options.fail(status);
+          }
+        }
+      };
+
+      if (options.type == 'GET') {
+        xhr.open('GET', options.httpUrl + '?' + params, true);
+        xhr.send();
+      } else if (options.type == 'POST') {
+        xhr.open('POST', options.httpUrl, true);
+        // 设置表单提交时的内容类型
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send(params);
+      }
+    }
+
+
+    /*
+      *格式化参数
+      */
+    function formatParams(data) {
+      var arr = [];
+      for (var name in data) {
+        arr.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
+      }
+      return arr.join('&');
+    }
+
+    ajax({
+      projectname: 'test-project',
+      httpUrl: 'https://test-gateway.jinyi999.cn/rjhy-activity-manage/api/v1/activities/pages', // 错误上报服务器地址
+      tag: 'v1.0.0', // 版本号
+      token: 'token',
+      env: 'dev', // 环境
+      data: {
+        position: 'flzq.dxkt'
+      }
+    })
+    ajax({
+      projectname: 'test-project',
+      httpUrl: 'https://test-gateway.jinyi999.cn/rjhy-activity-manage/api/v1/activities/pages', // 错误上报服务器地址
+      tag: 'v1.0.0', // 版本号
+      token: 'token',
+      env: 'dev', // 环境
+      type: 'POST',
+      data: {
+        position: 'flzq.dxkt1'
+      }
+    })
+  </script>
+</body>
+
+</html>

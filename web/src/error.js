@@ -53,7 +53,11 @@ export function error(config) {
       data: {
         ...config,
         tagName: target.tagName,
+<<<<<<< HEAD
         count: Number(target.dataset && target.dataset.count) || 0,
+=======
+        count: Number(target.dataset.count) || 0,
+>>>>>>> 1b19baf8072723d8cc6eba2cbfe9e3c14ec8c295
         src: target.currentSrc,
         type: 'resource',
       }
@@ -65,6 +69,7 @@ export function error(config) {
  *  @event httpError http 请求错误
  */
 export function httpError(config) {
+<<<<<<< HEAD
   if (typeof window.CustomEvent === "function") return false;
 
   function CustomEvent(event, params) {
@@ -143,4 +148,35 @@ export function httpError(config) {
       console.log(xhr, 'ajaxReadyStateChange');
     }
   });
+=======
+  var originalOpen = XMLHttpRequest.prototype.open
+  var originalSend = XMLHttpRequest.prototype.send
+  XMLHttpRequest.prototype.open = function (method, url, async, username, password) {
+    config.method = method
+    originalOpen.call(this, method, url, async, username, password)
+  }
+  XMLHttpRequest.prototype.send = function (data) {
+    var _this = this
+    var listener = function () {
+      console.log(_this.status, _this, '-- event')
+      if (_this.status == 200 && _this.readyState === 4) {
+        console.log('response status', _this.status,_this, data)
+        ajax({
+          url: config.httpUrl,
+          data: {
+            ...config,
+            responseURL: _this.currentSrc,
+            // response: _this.response,
+            status: _this.status,
+            requestData: data,
+            type: 'ajax',
+          }
+        })
+      }
+      _this.removeEventListener('readystatechange', listener) // 如何防止重复提交
+    }
+    _this.addEventListener('readystatechange', listener)
+    originalSend.call(this, data)
+  }
+>>>>>>> 1b19baf8072723d8cc6eba2cbfe9e3c14ec8c295
 }

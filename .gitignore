@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.DS_Store
 
 web/node_modules
@@ -6,3 +7,21 @@ serve/node_modules
 serve/package-lock.json
 web/package-lock.json
 
+=======
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.DS_Store
+package-lock.json
+
+web/node_modules
+serve/node_modules
+serve/package-lock.json
+web/package-lock.json
+
+*.lock
+>>>>>>> 1b19baf8072723d8cc6eba2cbfe9e3c14ec8c295

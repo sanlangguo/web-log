@@ -27,14 +27,13 @@ import { windowRrror, unhandledrejection, error, httpError } from './error.js'
   }
 
   window.WebLog = function (config) {
-    console.log(config, '---')
     if (!config.token) {
       throw('token does not exist')
     }
     if (!config.httpUrl) {
       throw('httpUrl does not exist')
     }
-    if (!config.projectname) {
+    if (!config.projectName) {
       throw('projectname does not exist')
     }
     const parameter = {
