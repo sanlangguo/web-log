@@ -6,14 +6,15 @@ const url = '/';
 // 上传信息
 router.post(url, function(req, res, next) {
   console.log(req.body, res, next, 'req, res, next');
-  res.send(req.body);
+  // res.send(req.body);
+  db.interLog(req, res, next);
 });
 
 // 查询信息
 router.get(url, function(req, res, next) {
   console.log(req.body, res, next, 'req, res, next');
   // res.send(req.body);
-  db.queryAll(req, res, next);
+  db.queryAll(req.body, res, next);
 });
 
 // 修改当前状态
