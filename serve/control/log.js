@@ -1,12 +1,12 @@
-import { responseDoReturn, pool } from '../config/db.js'
+var db = require('../config/db')
 
 /**
  * 数据库查询
  */
 function query(req, res, next) {
-  pool.getConnection(function (err, connection) {
+  db.pool.getConnection(function (err, connection) {
     connection.query('select * from list;', function (err, rows) {
-      responseDoReturn(res, rows);
+      db.responseDoReturn(res, rows);
       // 释放数据库连接
       connection.release();
     });
@@ -18,7 +18,7 @@ function query(req, res, next) {
  */
 function interLog(req, res, next) {
   console.log(req.body,  '______<<<<')
-  pool.getConnection(function (err, connection) {
+  db.pool.getConnection(function (err, connection) {
     connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type,req.body.msg,req.body.request_data,req.body.id], function (err, results, fields) {
       if (err || !req.body.type || req.body.msg) {
         res.status(400).send({ ...err, msg: '参数有误'});
@@ -37,7 +37,7 @@ function interLog(req, res, next) {
  * 删除当前数据
  */
 function deleteLog(req, res, next) {
-  pool.getConnection(function (err, connection) {
+  db.pool.getConnection(function (err, connection) {
     connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type,req.body.msg,req.body.request_data,req.body.id], function (err, results, fields) {
       if (err || !req.body.type || req.body.msg) {
         res.status(400).send({ ...err, msg: '参数有误'});
@@ -56,7 +56,7 @@ function deleteLog(req, res, next) {
  * 编辑当前数据
  */
 function editLog (req, res, next) {
-  pool.getConnection(function (err, connection) {
+  db.pool.getConnection(function (err, connection) {
     connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type,req.body.msg,req.body.request_data,req.body.id], function (err, results, fields) {
       if (err) {
         res.status(400).send({ ...err, msg: '参数有误'});
@@ -74,7 +74,7 @@ function editLog (req, res, next) {
 
 // 导出模块
 module.exports = {
-  queryAll: query,
+  query,
   interLog,
   deleteLog,
   editLog

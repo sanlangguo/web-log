@@ -9,12 +9,12 @@ const mySqlConf = {
 };
     
 // 使用连接池连接数据库，避免开太多的线程，提升性能
-export var pool = mysql.createPool(mySqlConf);
+var pool = mysql.createPool(mySqlConf);
 
 /**
  * 封装数据库查询结果，返回JSON
  */
-export function responseDoReturn(res, result) {
+function responseDoReturn(res, result) {
   if (typeof result === 'undefined') {
     res.json({
       code: '201',
@@ -102,5 +102,7 @@ module.exports = {
   queryAll: query,
   interLog,
   deleteLog,
-  editLog
+  editLog,
+  responseDoReturn,
+  pool
 };

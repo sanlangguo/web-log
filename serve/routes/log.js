@@ -16,7 +16,7 @@ router.post(url, function(req, res, next) {
 router.get(url, function(req, res, next) {
   console.log(req.body, res, next, 'req, res, next');
   // res.send(req.body);
-  db.queryAll(req, res, next);
+  db.query(req, res, next);
 });
 
 // 修改当前状态
