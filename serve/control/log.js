@@ -17,11 +17,16 @@ function query(req, res, next) {
  * 插入数据库
  */
 function interLog(req, res, next) {
-  console.log(req.body,  '______<<<<')
+  console.log(req.body, '______<<<<')
   db.pool.getConnection(function (err, connection) {
-    connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type,req.body.msg,req.body.request_data,req.body.id], function (err, results, fields) {
-      if (err || !req.body.type || req.body.msg) {
-        res.status(400).send({ ...err, msg: '参数有误'});
+    connection.query(`insert into list (type,msg,source,
+      lineno, colno, tag_name, status, req_data, res_url, res_data) values
+    (${req.body.type},${req.body.msg},${req.body.source},
+        ${req.body.lineno}, ${req.body.colno}, ${req.body.tagName}, 
+        ${req.body.status},${req.body.resData}, 
+        ${req.body.reqUrl},${req.body.reqData});`, function (err, results, fields) {
+      if (err || !req.body.type || !req.body.msg) {
+        res.status(400).send({ ...err, msg: '参数有误' });
       } else {
         res.send({
           msg: '成功'
@@ -38,9 +43,9 @@ function interLog(req, res, next) {
  */
 function deleteLog(req, res, next) {
   db.pool.getConnection(function (err, connection) {
-    connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type,req.body.msg,req.body.request_data,req.body.id], function (err, results, fields) {
-      if (err || !req.body.type || req.body.msg) {
-        res.status(400).send({ ...err, msg: '参数有误'});
+    connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type, req.body.msg, req.body.request_data, req.body.id], function (err, results, fields) {
+      if (err || !req.body.type || !req.body.msg) {
+        res.status(400).send({ ...err, msg: '参数有误' });
       } else {
         res.send({
           msg: '成功'
@@ -55,11 +60,11 @@ function deleteLog(req, res, next) {
 /**
  * 编辑当前数据
  */
-function editLog (req, res, next) {
+function editLog(req, res, next) {
   db.pool.getConnection(function (err, connection) {
-    connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type,req.body.msg,req.body.request_data,req.body.id], function (err, results, fields) {
+    connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type, req.body.msg, req.body.request_data, req.body.id], function (err, results, fields) {
       if (err) {
-        res.status(400).send({ ...err, msg: '参数有误'});
+        res.status(400).send({ ...err, msg: '参数有误' });
       } else {
         res.send({
           msg: '成功'

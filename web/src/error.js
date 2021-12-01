@@ -81,10 +81,10 @@ export function httpError(config) {
           url: config.httpUrl,
           data: {
             ...config,
-            responseURL: _this.currentSrc,
+            reqUrl: _this.currentSrc,
             // response: _this.response,
             status: _this.status,
-            requestData: data,
+            reqData: data,
             type: 'ajax',
           }
         })
