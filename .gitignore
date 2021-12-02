@@ -10,7 +10,11 @@ package-lock.json
 
 web/node_modules
 serve/node_modules
+log-management/node_modules
+
 serve/package-lock.json
 web/package-lock.json
+log-management/package-lock.json
+
 
 *.lock
