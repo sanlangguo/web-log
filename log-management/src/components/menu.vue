@@ -5,14 +5,13 @@
     @open="handleOpen"
     @close="handleClose"
   >
-    <el-sub-menu index="1">
+    <el-sub-menu :index="item.path" v-for="item in navs" :key="item.path">
       <template #title>
-        <el-icon><home-filled /></el-icon>
-        <span>日志监控</span>
+        <el-icon><component :is="item.icon" /></el-icon>
+        <span>{{item.name}}</span>
       </template>
-      <el-menu-item-group>
-        <el-menu-item index="logCount">日志统计</el-menu-item>
-        <el-menu-item index="logList">日志查询</el-menu-item>
+      <el-menu-item-group v-for="key in item.children" :key="key.path">
+        <el-menu-item :index="key.path">{{key.name}}</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
   </el-menu>
@@ -27,6 +26,23 @@ import {
   Setting,
   HomeFilled
 } from "@element-plus/icons";
+const navs = [
+  {
+    path: 'logCount',
+    name: '日志监控',
+    icon: 'home-filled',
+    children: [
+      {
+        path: 'logCount',
+        name: '日志监控',
+      },
+      {
+        path: 'logList',
+        name: '日志查询',
+      }
+    ]
+  }
+]
 
 export default defineComponent({
   components: {
@@ -47,6 +63,7 @@ export default defineComponent({
     return {
       handleOpen,
       handleClose,
+      navs
     };
   },
 });
