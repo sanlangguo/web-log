@@ -11,7 +11,7 @@
         <span>{{item.name}}</span>
       </template>
       <el-menu-item-group v-for="key in item.children" :key="key.path">
-        <el-menu-item :index="key.path">{{key.name}}</el-menu-item>
+        <el-menu-item :index="key.path" @click="toPath(key)" >{{key.name}}</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
   </el-menu>
@@ -26,6 +26,9 @@ import {
   Setting,
   HomeFilled
 } from "@element-plus/icons";
+
+import { NavPath } from '@/type';
+
 const navs = [
   {
     path: 'logCount',
@@ -42,7 +45,7 @@ const navs = [
       }
     ]
   }
-]
+];
 
 export default defineComponent({
   components: {
@@ -51,6 +54,11 @@ export default defineComponent({
     Setting,
     IconMenu,
     HomeFilled
+  },
+  methods: {
+    toPath(item: NavPath) {
+      this.$router.push(item.path);
+    }
   },
   setup() {
     const isCollapse = ref(true);

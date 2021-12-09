@@ -7,3 +7,8 @@ export interface LoginForm {
 export interface Domain {
   [key: string]: string
 }
+
+export interface NavPath {
+  path: string,
+  name: string,
+}
