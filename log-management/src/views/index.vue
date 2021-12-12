@@ -78,9 +78,6 @@ export default {
   width: auto;
 }
 
-.el-main {
-  line-height: 160px;
-}
 >>> .el-container {
   height: 100%;
 }

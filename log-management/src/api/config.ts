@@ -17,8 +17,6 @@ const config = {
   timeout: 5000,
 }
 
-console.log(config, '---<config')
-
 export const api = axios.create(config);
 
 // post 请求默认 headers

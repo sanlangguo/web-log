@@ -1,8 +1,8 @@
 import { api } from "../config";
-import { LoginForm } from '../../type'
+import { CreatePro } from '../../type'
 
-export async function login(params: LoginForm) {
+export async function login(params: CreatePro) {
   console.log(params, api)
-  const res = await api.post('login', params);
+  const res = await api.post('api/1/login', params);
   return res;
 }

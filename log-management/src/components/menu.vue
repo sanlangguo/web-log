@@ -36,6 +36,10 @@ const navs = [
     icon: 'home-filled',
     children: [
       {
+        path: 'overView',
+        name: '概况',
+      },
+      {
         path: 'logCount',
         name: '日志监控',
       },

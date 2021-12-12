@@ -12,3 +12,8 @@ export interface NavPath {
   path: string,
   name: string,
 }
+
+export interface CreatePro {
+  name: string,
+  type: string
+}

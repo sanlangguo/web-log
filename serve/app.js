@@ -6,7 +6,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var logRouter = require('./routes/log');
+var proRouter = require('./routes/project');
 var app = express();
+const API_VERSION = 'api/1';
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -25,8 +27,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/login', indexRouter);
-app.use('/log/list', logRouter);
+app.use(`/${API_VERSION}/login`, indexRouter);
+app.use(`/${API_VERSION}/log/list`, logRouter);
+app.use(`/${API_VERSION}/project`, proRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -42,6 +45,7 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+  
 });
 
 module.exports = app;
