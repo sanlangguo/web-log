@@ -23,7 +23,7 @@ router.put(url, function (req, res, next) {
   if (!req.body.id) {
     res.status(400).send({ msg: 'id不能为空' });
   } else {
-    res.editLog(req.body);
+    res.editLog(req, res, next);
   }
 });
 

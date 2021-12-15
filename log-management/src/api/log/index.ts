@@ -21,3 +21,17 @@ export async function delPro(id: string) {
   return res;
 }
 
+// 获取项目详情
+export async function getProDetail(params: { id:string }) {
+  const res = await api.get('api/1/project', {params});
+  return res;
+}
+
+
+// 更细项目
+export async function updatePro(params: {name: string, id:string}) {
+  console.log('params', params)
+  const res = await api.put('api/1/project', params);
+  return res;
+}
+

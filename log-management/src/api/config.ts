@@ -26,7 +26,6 @@ api.defaults.headers.post['Content-Type'] = 'application/json';
 api.interceptors.response.use(res => {
   return res
 },err => {
-  console.log(err.config, 'error')
   return Promise.reject(err)
 })
 

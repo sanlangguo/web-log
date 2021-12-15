@@ -21,11 +21,11 @@ router.get(url, function (req, res, next) {
 
 // 修改当前状态
 router.put(url, function (req, res, next) {
-  console.log(req.body, res, next, 'req, res, next');
+  console.log(req.body,'req, res, next');
   if (!req.body.id) {
     res.status(400).send({ msg: 'id不能为空' });
   } else {
-    res.editLog(req.body);
+    db.editLog(req.body, res, next);
   }
 });
 
