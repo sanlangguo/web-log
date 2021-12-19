@@ -14,7 +14,6 @@ router.post(url, function (req, res, next) {
 
 // 查询信息
 router.get(url, function (req, res, next) {
-  console.log('---<', req)
   db.query(req, res, next);
 });
 
@@ -22,10 +21,11 @@ router.get(url, function (req, res, next) {
 // 修改当前状态
 router.put(url, function (req, res, next) {
   console.log(req.body,'req, res, next');
+  // eslint-disable-next-line no-debugger
   if (!req.body.id) {
     res.status(400).send({ msg: 'id不能为空' });
   } else {
-    db.editLog(req.body, res, next);
+    db.editLog(req, res, next);
   }
 });
 

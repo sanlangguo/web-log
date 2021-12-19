@@ -32,7 +32,6 @@
 </template>
 <script lang="ts">
 import { login } from "@/api/login";
-import { LoginForm } from "../type";
 
 export default {
   data() {

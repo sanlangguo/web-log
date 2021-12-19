@@ -27,6 +27,12 @@ export async function getProDetail(params: { id:string }) {
   return res;
 }
 
+// 获取项目列表
+export async function getProList() {
+  const res = await api.get('api/1/project');
+  return res;
+}
+
 
 // 更细项目
 export async function updatePro(params: {name: string, id:string}) {

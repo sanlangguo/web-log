@@ -17,7 +17,6 @@ function query(req, res, next) {
  * 插入数据库
  */
 function interLog(req, res, next) {
-  console.log(req.body, '______<<<<')
   db.pool.getConnection(function (err, connection) {
     connection.query(`insert into list (type,msg,source,
       lineno, colno, tag_name, status, req_data, res_url, res_data) values

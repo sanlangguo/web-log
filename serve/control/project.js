@@ -25,7 +25,6 @@ function query(req, res, next) {
  * 插入数据库
  */
 function interLog(req, res, next) {
-  console.log(req.body, '______<<<<')
   db.pool.getConnection(function (err, connection) {
     connection.query(`insert into project (type,name) values ('${req.body.type}','${req.body.name}');`, function (err, results, fields) {
       console.log(err, 'err')
@@ -66,7 +65,7 @@ function deleteLog(req, res, next) {
  */
 function editLog(req, res, next) {
   db.pool.getConnection(function (err, connection) {
-    connection.query(`UPDATE project SET name=${req.body.name} WHERE id=${req.body.id};`, function (err, results, fields) {
+    connection.query(`UPDATE project SET name='${req.body.name}' WHERE id=${req.body.id};`, function (err, results, fields) {
       if (err) {
         res.status(400).send({ ...err, msg: '参数有误' });
       } else {
