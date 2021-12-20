@@ -1,7 +1,7 @@
 <template>
   <add-project />
   <div class="cs-card">
-    <template v-for="item in list">
+    <template v-for="item: { id: number, name: string } in list">
       <el-card class="box-card">
         <template #header>
           <div class="cs-seting">
@@ -13,7 +13,7 @@
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item :command="item">查看配置</el-dropdown-item>
-                  <el-dropdown-item command="del">删除该应用</el-dropdown-item>
+                  <el-dropdown-item :command="(item.id)">删除该应用</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -22,10 +22,22 @@
         <p class="cs-text">健康总分</p>
         <el-progress type="circle" :percentage="25" />
         <div class="cs-list">
-          <p>JS报错率：<b>86.8%</b></p>
-          <p>自定义异常率：<b>86.8%</b></p>
-          <p>接口报错率：<b>86.8%</b></p>
-          <p>静态资源报错率：<b>86.8%</b></p>
+          <p>
+            JS报错率：
+            <b>86.8%</b>
+          </p>
+          <p>
+            自定义异常率：
+            <b>86.8%</b>
+          </p>
+          <p>
+            接口报错率：
+            <b>86.8%</b>
+          </p>
+          <p>
+            静态资源报错率：
+            <b>86.8%</b>
+          </p>
         </div>
       </el-card>
     </template>
@@ -34,7 +46,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { Setting } from '@element-plus/icons'
-import { getProList } from "@/api/log";
+import { getProList, delPro } from "@/api/log";
 import addProject from "../components/addProject.vue";
 import { ElMessageBox, ElMessage } from 'element-plus'
 export default defineComponent({
@@ -59,25 +71,32 @@ export default defineComponent({
       } else {
         this.list = [];
       }
-      console.log(res, '----')
     },
     handleCommand(command: any) {
-      console.log(command, 'command')
-      ElMessageBox.confirm(
-        '是否要删除该项目?',
-        '提示',
-        {
-          confirmButtonText: '确认',
-          cancelButtonText: '取消',
-          type: 'warning',
-        }
-      )
-        .then(() => {
-          ElMessage({
-            type: 'success',
-            message: '删除成功',
+      if (typeof command === 'number') {
+        ElMessageBox.confirm(
+          '是否要删除该项目?',
+          '提示',
+          {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }
+        )
+          .then(async () => {
+            const res = await delPro(command);
+            if (res.status === 200) {
+              ElMessage({
+                type: 'success',
+                message: '删除成功',
+              })
+              this.getList()
+            }
           })
-        })
+      } else {
+        this.$router.push({ path: `/pro-details/${command.id}` })
+      }
+
     }
   }
 })

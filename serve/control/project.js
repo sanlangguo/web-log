@@ -46,8 +46,8 @@ function interLog(req, res, next) {
  */
 function deleteLog(req, res, next) {
   db.pool.getConnection(function (err, connection) {
-    connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type, req.body.msg, req.body.request_data, req.body.id], function (err, results, fields) {
-      if (err || !req.body.type || !req.body.msg) {
+    connection.query(`delete from project where id=${req.query.id}`, function (err, results, fields) {
+      if (err || !req.query.id) {
         res.status(400).send({ ...err, msg: '参数有误' });
       } else {
         res.send({

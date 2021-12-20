@@ -76,7 +76,7 @@ export default defineComponent({
       this.$router.push('/overView')
     },
     async submitForm(formName: string) {
-      console.log(this.$route.query.id, 'this.$route.query.id')
+      console.log(this.$route, 'this.$route.query.id')
       this.loading = true;
       if (this.ruleForm.name) {
         let res = null;

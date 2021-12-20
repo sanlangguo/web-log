@@ -15,9 +15,9 @@ export async function createPro(params: LoginForm) {
 }
 
 // 删除项目
-export async function delPro(id: string) {
+export async function delPro(id: number) {
   console.log('params', id)
-  const res = await api.post('api/1/project', {id});
+  const res = await api.delete('api/1/project',{ params: { id } });
   return res;
 }
 
