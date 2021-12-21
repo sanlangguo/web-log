@@ -1,5 +1,5 @@
 <template>
-  <add-project />
+  <add-project @updateList="getList" />
   <div class="cs-card">
     <template v-for="item: { id: number, name: string } in list">
       <el-card class="box-card">
@@ -19,25 +19,27 @@
             </el-dropdown>
           </div>
         </template>
-        <p class="cs-text">健康总分</p>
-        <el-progress type="circle" :percentage="25" />
-        <div class="cs-list">
-          <p>
-            JS报错率：
-            <b>86.8%</b>
-          </p>
-          <p>
-            自定义异常率：
-            <b>86.8%</b>
-          </p>
-          <p>
-            接口报错率：
-            <b>86.8%</b>
-          </p>
-          <p>
-            静态资源报错率：
-            <b>86.8%</b>
-          </p>
+        <div class="cs-list-box" @click="viewDetails(item)">
+          <p class="cs-text">健康总分</p>
+          <el-progress type="circle" :percentage="25" />
+          <div class="cs-list">
+            <p>
+              JS报错率：
+              <b>86.8%</b>
+            </p>
+            <p>
+              自定义异常率：
+              <b>86.8%</b>
+            </p>
+            <p>
+              接口报错率：
+              <b>86.8%</b>
+            </p>
+            <p>
+              静态资源报错率：
+              <b>86.8%</b>
+            </p>
+          </div>
         </div>
       </el-card>
     </template>
@@ -48,7 +50,8 @@ import { defineComponent, ref } from "vue";
 import { Setting } from '@element-plus/icons'
 import { getProList, delPro } from "@/api/log";
 import addProject from "../components/addProject.vue";
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus';
+import { ProList } from '../type'
 export default defineComponent({
   components: {
     addProject,
@@ -64,6 +67,11 @@ export default defineComponent({
     this.getList()
   },
   methods: {
+    viewDetails(item: ProList) {
+      this.$router.push({
+        
+      })
+    },
     async getList() {
       const res = await getProList();
       if (res.status === 200 && res.data && res.data.length) {
@@ -96,7 +104,6 @@ export default defineComponent({
       } else {
         this.$router.push({ path: `/pro-details/${command.id}` })
       }
-
     }
   }
 })
@@ -112,9 +119,10 @@ export default defineComponent({
   margin-top: 16px;
   margin-right: 16px;
 }
->>> .el-card__body {
+.cs-list-box {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 .cs-text {
   margin-right: 16px;

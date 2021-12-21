@@ -31,7 +31,6 @@
 import { defineComponent, ref } from "vue";
 import { ElMessage } from 'element-plus';
 import { createPro, getProDetail, updatePro } from "@/api/log";
-import es from "element-plus/es";
 export default defineComponent({
   name: "proDetails",
   async created() {
@@ -100,6 +99,7 @@ export default defineComponent({
             onClose: () => {
               this.dialogVisible = false;
               this.loading = false;
+              this.goHome()
             }
           })
         } else {

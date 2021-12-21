@@ -17,3 +17,8 @@ export interface CreatePro {
   name: string,
   type: string
 }
+
+export interface ProList {
+  id: number,
+  name: string
+}

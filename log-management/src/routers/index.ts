@@ -33,7 +33,7 @@ const routes = [
         },
       },
       {
-        path: "logList",
+        path: "logList/:id",
         name: "logList",
         component: logList,
         meta: {

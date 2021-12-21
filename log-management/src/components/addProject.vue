@@ -29,6 +29,9 @@ import { createPro } from "@/api/log";
 import { ElMessage } from 'element-plus';
 export default defineComponent({
   name: "addProject",
+  emits: {
+    updateList: null,
+  },
   created() {
 
   },
@@ -76,6 +79,7 @@ export default defineComponent({
             onClose: () => {
               this.dialogVisible = false;
               this.loading = false;
+              this.$emit('updateList');
             }
           })
         } else {
