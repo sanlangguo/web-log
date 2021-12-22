@@ -26,7 +26,6 @@ export function windowRrror(config) {
  */
 export function unhandledrejection(config) {
   window.addEventListener('unhandledrejection', function (e) {
-    console.log(e, '---')
     ajax({
       url: config.httpUrl,
       data: {
