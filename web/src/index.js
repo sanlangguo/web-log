@@ -15,8 +15,8 @@ import { windowRrror, unhandledrejection, error, httpError } from './error.js'
   var defaults = {
     ua: window.navigator.userAgent,
     browser: getBrowser(),
-    os: getDevices(),
-    osVersion: getSystemVersion(),
+    device: getDevices(),
+    deviceVersion: getSystemVersion(),
     pageUrl: window.location.href,
     env: 'dev',
     msg: '', // 错误的具体信息
