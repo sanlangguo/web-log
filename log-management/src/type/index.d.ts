@@ -22,3 +22,12 @@ export interface ProList {
   id: number,
   name: string
 }
+
+export interface LogListParams {
+  id: number,
+  size: number,
+  count: number,
+  starTime?: number,
+  endTime?: number,
+  type?: string
+}

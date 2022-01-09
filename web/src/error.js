@@ -47,14 +47,14 @@ export function unhandledrejection(config) {
 export function error(config) {
   window.addEventListener('error', (e) => {
     const target = e.target
-    console.info(e, target.tagName, 'error')
+    console.info(e, config, 'error')
     ajax({
       url: config.httpUrl,
       data: {
         ...config,
         tagName: target.tagName,
         count: Number(target.dataset.count) || 0,
-        src: target.currentSrc,
+        src: target.currentSrc, // 资源加载错误的文件
         type: 'resource',
       }
     })

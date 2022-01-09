@@ -61,7 +61,10 @@ export default defineComponent({
   },
   methods: {
     toPath(item: NavPath) {
-      this.$router.push(item.path);
+      console.log(item.path, 'item.path')
+      this.$router.push({
+        path: `/${item.path}`
+      });
     }
   },
   setup() {

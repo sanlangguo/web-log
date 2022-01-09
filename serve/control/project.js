@@ -29,7 +29,7 @@ function interLog(req, res, next) {
     connection.query(`insert into project (type,name) values ('${req.body.type}','${req.body.name}');`, function (err, results, fields) {
       console.log(err, 'err')
       if (err || !req.body.type || !req.body.name) {
-        res.status(400).send({ ...err, msg: '参数有误' });
+        res.status(400).send({msg: '参数有误' });
       } else {
         res.send({
           msg: '成功'

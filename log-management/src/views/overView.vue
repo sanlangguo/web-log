@@ -69,7 +69,7 @@ export default defineComponent({
   methods: {
     viewDetails(item: ProList) {
       this.$router.push({
-        
+        path: `/logList/${item.id}`
       })
     },
     async getList() {

@@ -30,7 +30,6 @@
   </div>
 </template>
 <script lang="ts">
-// import { setup } from 'vue'
 import Menu from '../components/menu.vue'
 import { useRouter } from "vue-router";
 import { ArrowDown } from "@element-plus/icons";

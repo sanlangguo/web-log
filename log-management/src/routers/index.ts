@@ -4,8 +4,9 @@ const logCount = () => import('@/views/logCount.vue');
 const logList = () => import('@/views/logList.vue');
 const overView = () => import('@/views/overView.vue');
 const proDetails = () => import('@/views/proDetails.vue');
+const logDetails = () => import('@/views/logDetails.vue');
 
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   {
@@ -36,6 +37,14 @@ const routes = [
         path: "logList/:id",
         name: "logList",
         component: logList,
+        meta: {
+          title: '日志查询'
+        },
+      },
+      {
+        path: "logDetails/:id",
+        name: "logDetails",
+        component: logDetails,
         meta: {
           title: '日志查询'
         },

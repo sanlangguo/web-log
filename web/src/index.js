@@ -23,7 +23,7 @@ import { windowRrror, unhandledrejection, error, httpError } from './error.js'
     httpUrl: '', // 错误上报服务器地址
     line: '', // 错误所在的行
     col: '', // 错误所在的列
-    error: '' // 具体的error对象
+    error: '' // 具体的error对象,
   }
 
   window.WebLog = function (config) {
