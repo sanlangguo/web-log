@@ -39,15 +39,14 @@ export default defineComponent({
     if (res.data) {
       this.ruleForm = res.data[0];
     }
-    console.log(res,'res')
   },
   data() {
-    const checkType = (rule, value, callback) => {
+    const checkType = (rule: any, value: any, callback: any) => {
       if (!value) {
         return callback(new Error("Please input the type"));
       }
     };
-    const checkName = (rule, value, callback) => {
+    const checkName = (rule: any, value: any, callback: any) => {
       if (value === "") {
         callback(new Error("Please input the name again"));
       } else if (value !== this.ruleForm.name) {
@@ -59,7 +58,7 @@ export default defineComponent({
     return {
       dialogVisible: false,
       loading: false,
-      id: null,
+      id: null as any,
       ruleForm: {
         name: "",
         type: "h5",
@@ -75,7 +74,6 @@ export default defineComponent({
       this.$router.push('/overView')
     },
     async submitForm(formName: string) {
-      console.log(this.$route, 'this.$route.query.id')
       this.loading = true;
       if (this.ruleForm.name) {
         let res = null;

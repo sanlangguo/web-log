@@ -1,7 +1,7 @@
 <template>
   <add-project @updateList="getList" />
   <div class="cs-card">
-    <template v-for="item: { id: number, name: string } in list">
+    <template v-for="item: any in list">
       <el-card class="box-card">
         <template #header>
           <div class="cs-seting">
@@ -20,24 +20,20 @@
           </div>
         </template>
         <div class="cs-list-box" @click="viewDetails(item)">
-          <p class="cs-text">健康总分</p>
-          <el-progress type="circle" :percentage="25" />
+          <p class="cs-text">错误总个数</p>
+          <el-tag class="ml-2" type="danger">{{item.allNumber || 0}}</el-tag>
           <div class="cs-list">
             <p>
-              JS报错率：
-              <b>86.8%</b>
+              JS报错（个数）：
+              <b>{{item.promise || 0}}</b>
             </p>
             <p>
-              自定义异常率：
-              <b>86.8%</b>
+              接口（个数）：
+              <b>{{item.xhr || 0}}</b>
             </p>
             <p>
-              接口报错率：
-              <b>86.8%</b>
-            </p>
-            <p>
-              静态资源报错率：
-              <b>86.8%</b>
+              静态资源（个数）：
+              <b>{{item.resource || 0}}</b>
             </p>
           </div>
         </div>
@@ -48,10 +44,10 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { Setting } from '@element-plus/icons'
-import { getProList, delPro } from "@/api/log";
+import { getProList, delPro, getLogstatistcs } from "@/api/log";
 import addProject from "../components/addProject.vue";
 import { ElMessageBox, ElMessage } from 'element-plus';
-import { ProList } from '../type'
+import { ProList, Page } from '../type'
 export default defineComponent({
   components: {
     addProject,
@@ -60,7 +56,11 @@ export default defineComponent({
   name: 'logList',
   data() {
     return {
-      list: [],
+      params: {
+        size: 10,
+        count: 1,
+      },
+      list: [] as any,
     }
   },
   created() {
@@ -73,12 +73,32 @@ export default defineComponent({
       })
     },
     async getList() {
-      const res = await getProList();
+      const params = {
+        size: this.params.size,
+        count: this.params.count -1
+      };
+      const res = await getProList(params);
       if (res.status === 200 && res.data && res.data.length) {
         this.list = res.data;
+        this.getLogstatistcs(params);
       } else {
         this.list = [];
       }
+    },
+    async getLogstatistcs(params: Page) {
+      const res = await getLogstatistcs(params);
+      this.list.map((item: any) => {
+        res.data.data.map((val:any) => {
+          if (val.id === item.id) {
+            item[val.type] = val.count;
+            if (item.allNumber) {
+              item.allNumber += val.count;
+            } else {
+              item.allNumber = val.count;
+            }
+          }
+        })
+      })
     },
     handleCommand(command: any) {
       if (typeof command === 'number') {

@@ -73,9 +73,7 @@ export default {
           if (res.status == 200 && res.data) {
             this.$router.push("/");
           }
-          console.log(res, "ruleForm");
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

@@ -39,14 +39,14 @@ const navs = [
         path: 'overView',
         name: '概况',
       },
-      {
-        path: 'logCount',
-        name: '日志监控',
-      },
-      {
-        path: 'logList',
-        name: '日志查询',
-      }
+      // {
+      //   path: 'logCount',
+      //   name: '日志监控',
+      // },
+      // {
+      //   path: 'logList',
+      //   name: '日志查询',
+      // }
     ]
   }
 ];
@@ -61,7 +61,6 @@ export default defineComponent({
   },
   methods: {
     toPath(item: NavPath) {
-      console.log(item.path, 'item.path')
       this.$router.push({
         path: `/${item.path}`
       });
@@ -70,7 +69,6 @@ export default defineComponent({
   setup() {
     const isCollapse = ref(true);
     const handleOpen = (key: number, keyPath: Array<string>) => {
-      console.log(key, keyPath);
     };
     const handleClose = (key: number, keyPath: Array<string>) => {
       console.log(key, keyPath);

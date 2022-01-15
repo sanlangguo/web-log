@@ -27,7 +27,6 @@ function query(req, res, next) {
 function interLog(req, res, next) {
   db.pool.getConnection(function (err, connection) {
     connection.query(`insert into project (type,name) values ('${req.body.type}','${req.body.name}');`, function (err, results, fields) {
-      console.log(err, 'err')
       if (err || !req.body.type || !req.body.name) {
         res.status(400).send({msg: '参数有误' });
       } else {

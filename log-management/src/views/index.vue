@@ -3,7 +3,7 @@
     <el-container>
       <el-header>
         <div class="nav-hd-box">
-          <p>1</p>
+          <p>前端日志</p>
           <el-dropdown placement="bottom-end" @command="handleCommand">
             <el-avatar
               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"

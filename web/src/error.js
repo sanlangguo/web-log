@@ -84,7 +84,7 @@ export function httpError(config) {
             // response: _this.response,
             status: _this.status,
             reqData: data,
-            type: 'ajax',
+            type: 'xhr',
           }
         })
       }

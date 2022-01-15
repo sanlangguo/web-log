@@ -31,3 +31,8 @@ export interface LogListParams {
   endTime?: number,
   type?: string
 }
+
+export interface Page {
+  size: number,
+  count: number,
+}

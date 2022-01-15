@@ -35,7 +35,6 @@ onBeforeMount(async () => {
   if (res.status === 200 && res.data.data && res.data.data.length) {
     data.value = res.data.data[0];
   } else { data.value = {}; }
-  console.log(route.currentRoute.value.params)
 })
 
 </script>

@@ -3,24 +3,28 @@ var db = require('../config/db')
 /**
  * 数据库查询
  */
-async function query(req, res, next) {
+function query(req, res, next) {
   db.pool.getConnection(async (err, connection) => {
     // id time type 查询
     let querySql = `select * from list where pro_id=${req.query.id} `;
     let sql = '';
     let totalSql = `select count(type) from list where pro_id=${req.query.id} `;
     if (req.query.starTime && req.query.endTime) {
-      sql = `and create_time>=${req.query.starTime} and create_time<=${req.query.endTime} `;
+      sql = `and create_time between from_unixtime(${req.query.starTime/1000}) and from_unixtime(${req.query.endTime/1000}) `;
     }
     if (req.query.type) {
-      sql += `type=${req.query.type} `;
+      sql += `and type='${req.query.type}' `;
+    }
+    if (req.query.msg) {
+      sql += `and msg like '%${req.query.msg}%' `;
     }
     totalSql += sql;
     sql += `order by create_time desc limit ${req.query.size} offset ${req.query.size * req.query.count};`;
+    const queryList =  querySql + sql;
     connection.query(totalSql + ';', (errT, total) => {
-      connection.query(querySql + sql, (errD, data) => {
+      connection.query(queryList, (errD, data) => {
         if (errT || errD) {
-          return res.status(400).send({ ...err, msg: '参数有误' });
+          return res.status(400).send({ ...errT,...errD, msg: '参数有误' });
         }
         db.responseDoReturn(res, {
           data: data,
@@ -38,7 +42,6 @@ async function query(req, res, next) {
 function interLog(req, res, next) {
   db.pool.getConnection(function (err, connection) {
     connection.query(`select 1 from project where id = ${req.query.id} limit 1;`, (err, results, fields) => {
-      console.log('results___>', req.body);
       if (results && results.length) {
         connection.query(`insert into list (type, msg, source, lineno, colno, tag_name, status, req_data, page_url, res_url,device, browser, pro_id, tag) values
         (${req.body.type || null}, ${req.body.msg || null},${req.body.source || req.body.src || null}, ${req.body.lineno || null},
@@ -83,17 +86,18 @@ function queryDetails(req, res, next) {
  */
 function deleteLog(req, res, next) {
   db.pool.getConnection(function (err, connection) {
-    connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type, req.body.msg, req.body.request_data, req.body.id], function (err, results, fields) {
-      if (err || !req.body.type || !req.body.msg) {
-        res.status(400).send({ ...err, msg: '参数有误' });
-      } else {
-        res.send({
-          msg: '成功'
-        });
-      }
-      // 释放数据库连接
-      connection.release();
-    });
+    connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type, req.body.msg, req.body.request_data, req.body.id],
+      function (err, results, fields) {
+        if (err || !req.body.type || !req.body.msg) {
+          res.status(400).send({ ...err, msg: '参数有误' });
+        } else {
+          res.send({
+            msg: '成功'
+          });
+        }
+        // 释放数据库连接
+        connection.release();
+      });
   });
 }
 
@@ -102,20 +106,41 @@ function deleteLog(req, res, next) {
  */
 function editLog(req, res, next) {
   db.pool.getConnection(function (err, connection) {
-    connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type, req.body.msg, req.body.request_data, req.body.id], function (err, results, fields) {
-      if (err) {
-        res.status(400).send({ ...err, msg: '参数有误' });
-      } else {
-        res.send({
-          msg: '成功'
-        });
-      }
-      // 释放数据库连接
-      connection.release();
-    });
+    connection.query('INSERT INTO list(type,msg,request_data,id) VALUES(?,?,?,?);', [req.body.type, req.body.msg, req.body.request_data, req.body.id],
+      function (err, results, fields) {
+        if (err) {
+          res.status(400).send({ ...err, msg: '参数有误' });
+        } else {
+          res.send({
+            msg: '成功'
+          });
+        }
+        // 释放数据库连接
+        connection.release();
+      });
   });
 }
 
+/**
+ * 统计错误日志指标
+ */
+function logStatistics(req, res, next) {
+  db.pool.getConnection((err, connection) => {
+    connection.query(`select count(*) as count, project.id, list.type from list, project where project.id = list.pro_id group by project.id, list.type limit
+    ${req.query.size} offset ${req.query.size * req.query.count}`,
+      (err, data,) => {
+        if (err) {
+          res.send({ ...err, msg: '查询错误' });
+        } else {
+          db.responseDoReturn(res, {
+            data,
+          });
+        }
+        // 释放数据库连接
+        connection.release();
+      })
+  })
+}
 
 // 导出模块
 module.exports = {
@@ -123,5 +148,6 @@ module.exports = {
   interLog,
   deleteLog,
   editLog,
-  queryDetails
+  queryDetails,
+  logStatistics
 };
