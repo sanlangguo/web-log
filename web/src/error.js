@@ -74,7 +74,7 @@ export function httpError(config) {
     var _this = this
     var listener = function () {
       console.log(_this.status, _this, '-- event')
-      if (_this.status == 200 && _this.readyState === 4) {
+      if (_this.status !== 200 && _this.readyState === 4) {
         console.log('response status', _this.status,_this, data)
         ajax({
           url: config.httpUrl,

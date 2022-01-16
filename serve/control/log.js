@@ -7,10 +7,10 @@ function query(req, res, next) {
   db.pool.getConnection(async (err, connection) => {
     // id time type 查询
     let querySql = `select * from list where pro_id=${req.query.id} `;
-    let sql = '';
+    let sql = null;
     let totalSql = `select count(type) from list where pro_id=${req.query.id} `;
     if (req.query.starTime && req.query.endTime) {
-      sql = `and create_time between from_unixtime(${req.query.starTime/1000}) and from_unixtime(${req.query.endTime/1000}) `;
+      sql = `and create_time between from_unixtime(${req.query.starTime / 1000}) and from_unixtime(${req.query.endTime / 1000}) `;
     }
     if (req.query.type) {
       sql += `and type='${req.query.type}' `;
@@ -20,11 +20,11 @@ function query(req, res, next) {
     }
     totalSql += sql;
     sql += `order by create_time desc limit ${req.query.size} offset ${req.query.size * req.query.count};`;
-    const queryList =  querySql + sql;
+    const queryList = querySql + sql;
     connection.query(totalSql + ';', (errT, total) => {
       connection.query(queryList, (errD, data) => {
         if (errT || errD) {
-          return res.status(400).send({ ...errT,...errD, msg: '参数有误' });
+          return res.status(400).send({ ...errT, ...errD, msg: '参数有误' });
         }
         db.responseDoReturn(res, {
           data: data,
@@ -43,11 +43,13 @@ function interLog(req, res, next) {
   db.pool.getConnection(function (err, connection) {
     connection.query(`select 1 from project where id = ${req.query.id} limit 1;`, (err, results, fields) => {
       if (results && results.length) {
-        connection.query(`insert into list (type, msg, source, lineno, colno, tag_name, status, req_data, page_url, res_url,device, browser, pro_id, tag) values
-        (${req.body.type || null}, ${req.body.msg || null},${req.body.source || req.body.src || null}, ${req.body.lineno || null},
-          ${req.body.colno || null}, ${req.body.tagName || null},${req.body.status || null}, 
-          ${req.body.reqData || null}, ${req.body.pageUrl || null}, ${req.body.httpUrl || null},
-          ${req.body.ua || null}, ${req.body.browser || null}, ${req.query.id || null}, ${req.body.tag || null});`, function (err, results, fields) {
+        const sql = 'insert into list (type, msg, source, lineno, colno, tag_name, status, req_data, page_url, res_url,device, browser, pro_id, tag) values ' +
+          '(' + `'${req.body.type || null}'` + ',' + `'${req.body.msg || null}'` + ',' + `'${req.body.source || req.body.src || null}'` + ',' +
+          `'${req.body.lineno || null}'` + ',' + `'${req.body.colno || null}'` + ',' + `'${req.body.tagName || null}'` + ',' + `'${req.body.status || null}'` + ',' +
+          `'${req.body.reqData || null}'` + ',' + `'${req.body.pageUrl || null}'` + ',' + `'${req.body.httpUrl || null}'` + ',' +
+          `'${req.body.ua || null}'` + ',' + `'${req.body.browser || null}'` + ',' + `'${req.query.id || null}'` + ',' + `'${req.body.tag || null}'` + ');';
+        console.log('sql_', sql)
+        connection.query(sql, function (err, results, fields) {
           if (err) {
             res.status(400).send({ ...err, msg: '参数有误' });
           } else {
@@ -127,7 +129,7 @@ function editLog(req, res, next) {
 function logStatistics(req, res, next) {
   db.pool.getConnection((err, connection) => {
     connection.query(`select count(*) as count, project.id, list.type from list, project where project.id = list.pro_id group by project.id, list.type limit
-    ${req.query.size} offset ${req.query.size * req.query.count}`,
+    ${req.query.size} offset ${req.query.size * req.query.count}'`,
       (err, data,) => {
         if (err) {
           res.send({ ...err, msg: '查询错误' });
