@@ -44,7 +44,7 @@ function interLog(req, res, next) {
     connection.query(`select 1 from project where id = ${req.query.id} limit 1;`, (err, results, fields) => {
       if (results && results.length) {
         const sql = 'insert into list (type, msg, source, lineno, colno, tag_name, status, req_data, page_url, res_url,device, browser, pro_id, tag) values ' +
-          '(' + `'${req.body.type || null}'` + ',' + `'${req.body.msg || null}'` + ',' + `'${req.body.source || req.body.src || null}'` + ',' +
+          '(' + `'${req.body.type}'` + ',' + `'${req.body.msg}'` + ',' + `'${req.body.source || req.body.src || null}'}` + ',' +
           `'${req.body.lineno || null}'` + ',' + `'${req.body.colno || null}'` + ',' + `'${req.body.tagName || null}'` + ',' + `'${req.body.status || null}'` + ',' +
           `'${req.body.reqData || null}'` + ',' + `'${req.body.pageUrl || null}'` + ',' + `'${req.body.httpUrl || null}'` + ',' +
           `'${req.body.ua || null}'` + ',' + `'${req.body.browser || null}'` + ',' + `'${req.query.id || null}'` + ',' + `'${req.body.tag || null}'` + ');';

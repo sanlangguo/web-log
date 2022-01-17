@@ -9,8 +9,8 @@
 
 <body>
   <div>22222
-    <img src="https://xxx1.png" alt="22">
-    <img src="https://xxx2.png" alt="22">
+    <!-- <img src="https://xxx1.png" alt="22">
+    <img src="https://xxx2.png" alt="22"> -->
   </div>
 
   <!-- <script type="module" src="../src/index.js"></script> -->
@@ -18,7 +18,7 @@
   <script>
     WebLog({
       projectName: 'test-project',
-      httpUrl: 'http://localhost:3000/api/1/log/list?id=2', // 错误上报服务器地址
+      httpUrl: 'http://localhost:3000/api/1/log/list?id=3', // 错误上报服务器地址
       tag: 'v1.0.0', // 版本号
       token: 'token',
       env: 'dev' // 环境
@@ -71,25 +71,25 @@
     }
 
     ajax({
-      projectname: 'test-project',
-      httpUrl: 'https://test-gateway.jinyi999.cn/rjhy-activity-manage/api/v1/activities/pages', // 错误上报服务器地址
+      httpUrl: 'https://test-gateway.jinyi999.cn/rjhy-activity-manage/api/v1/activities/pagess', // 错误上报服务器地址
       tag: 'v1.0.0', // 版本号
       token: 'token',
       env: 'dev', // 环境
+      type: 'get',
       data: {
         position: 'flzq.dxkt'
       }
     })
-    ajax({
-      projectname: 'test-project',
-      httpUrl: 'https://test-gateway.jinyi999.cn/rjhy-activity-manage/api/v1/activities/pages', // 错误上报服务器地址
-      tag: 'v1.0.0', // 版本号
-      token: 'token',
-      env: 'dev', // 环境
-      data: {
-        position: 'flzq.dxkt2'
-      }
-    })
+    // ajax({
+    //   projectname: 'test-project',
+    //   httpUrl: 'https://test-gateway.jinyi999.cn/rjhy-activity-manage/api/v1/activities/pages', // 错误上报服务器地址
+    //   tag: 'v1.0.0', // 版本号
+    //   token: 'token',
+    //   env: 'dev', // 环境
+    //   data: {
+    //     // position: 'flzq.dxkt2'
+    //   }
+    // })
   </script>
 </body>
 

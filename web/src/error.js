@@ -46,7 +46,6 @@ export function unhandledrejection(config) {
 export function error(config) {
   window.addEventListener('error', (e) => {
     const target = e.target
-    console.info(e, config, 'error')
     ajax({
       url: config.httpUrl,
       data: {
@@ -66,24 +65,23 @@ export function error(config) {
 export function httpError(config) {
   var originalOpen = XMLHttpRequest.prototype.open
   var originalSend = XMLHttpRequest.prototype.send
-  XMLHttpRequest.prototype.open = function (method, url, async, username, password) {
+  const reqConf = {}
+  XMLHttpRequest.prototype.open = function (method, url) {
     config.method = method
-    originalOpen.call(this, method, url, async, username, password)
+    reqConf.url = url
+    originalOpen.call(this, method, url)
   }
   XMLHttpRequest.prototype.send = function (data) {
     var _this = this
     var listener = function () {
-      console.log(_this.status, _this, '-- event')
       if (_this.status !== 200 && _this.readyState === 4) {
-        console.log('response status', _this.status,_this, data)
         ajax({
           url: config.httpUrl,
           data: {
             ...config,
-            reqUrl: _this.currentSrc,
-            // response: _this.response,
+            reqUrl: reqConf.url,
             status: _this.status,
-            reqData: data,
+            reqData: config.method.toUpperCase() === 'GET' ? null : data,
             type: 'xhr',
           }
         })
