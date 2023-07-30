@@ -4,6 +4,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const { expressjwt: expressJWT} = require('express-jwt')
 var indexRouter = require('./routes/index');
 var logRouter = require('./routes/log');
 var proRouter = require('./routes/project');
@@ -11,6 +12,7 @@ var app = express();
 const API_VERSION = 'api/1';
 
 app.use((req, res, next) => {
+  console.log(res, '222222')
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Authorization,X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PATCH, PUT, DELETE');
@@ -18,6 +20,11 @@ app.use((req, res, next) => {
   res.header('Content-Length: 0');
   next();
 });
+
+
+// token
+app.use(expressJWT({ secret: 'secret12345', algorithms: ["HS256"] }).unless({ path: ['/api/1/login'] }));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

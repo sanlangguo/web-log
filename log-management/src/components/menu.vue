@@ -25,7 +25,7 @@ import {
   Menu as IconMenu,
   Setting,
   HomeFilled
-} from "@element-plus/icons";
+} from "@element-plus/icons-vue";
 
 import { NavPath } from '@/type';
 

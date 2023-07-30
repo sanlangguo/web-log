@@ -32,7 +32,7 @@
 <script lang="ts">
 import Menu from '../components/menu.vue'
 import { useRouter } from "vue-router";
-import { ArrowDown } from "@element-plus/icons";
+import { ArrowDown } from "@element-plus/icons-vue";
 export default {
   components: {
     ArrowDown,

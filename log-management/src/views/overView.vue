@@ -43,7 +43,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Setting } from '@element-plus/icons'
+import { Setting } from '@element-plus/icons-vue'
 import { getProList, delPro, getLogstatistcs } from "@/api/log";
 import addProject from "../components/addProject.vue";
 import { ElMessageBox, ElMessage } from 'element-plus';
